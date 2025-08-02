@@ -4,7 +4,7 @@ project(snake_game C)
 
 set(CMAKE_C_STANDARD 11)
 
-include_directories(${CMAKE_SOURCE_DIR}/inc)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
 find_package(SDL2 REQUIRED)
 

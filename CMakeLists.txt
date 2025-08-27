@@ -4,10 +4,15 @@ project(snake_game C)
 
 set(CMAKE_C_STANDARD 11)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
+include(FetchContent)
+FetchContent_Declare(
+        snakelib
+        GIT_REPOSITORY https://github.com/ksmsergei/snakelib.git
+)
+FetchContent_MakeAvailable(snakelib)
 
 find_package(SDL2 REQUIRED)
 
-add_executable(snake WIN32 src/main.c src/snake.c)
+add_executable(snake src/main.c)
 
-target_link_libraries(snake PRIVATE SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(snake PRIVATE SDL2::SDL2 SDL2::SDL2main snakelib::snakelib)

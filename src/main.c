@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
-#include "snake.h"
+#include "snakelib.h"
 
 #define CELL_WIDTH 50
 #define CELL_HEIGHT 50
@@ -98,25 +98,25 @@ void draw_scene() {
 void update_window_title() {
     char title[100];
 
-    int score = game.snake_length - 2;
+    const int score = game.snake_length - 2;
     switch (game.game_state) {
         case PLAYING:
-            sprintf(title, "PLAYING (Score: %d) %dx%d", score, game_field_size.x, game_field_size.y);    
+            sprintf_s(title, sizeof(title), "PLAYING (Score: %d) %dx%d", score, game_field_size.x, game_field_size.y);
             break;
 
         case VICTORY:
-            sprintf(title, "VICTORY (Score: %d)", score);
+            sprintf_s(title, sizeof(title), "VICTORY (Score: %d)", score);
             break;
 
         case DEFEAT:
-            sprintf(title, "DEFEAT (Score: %d)", score);
+            sprintf_s(title, sizeof(title), "DEFEAT (Score: %d)", score);
             break;
     }
 
     SDL_SetWindowTitle(window, title);    
 }
 
-void resize_game_field(bool increase) {
+void resize_game_field(const bool increase) {
     bool should_resize = false;
 
     if (increase && game_field_size.x < MAX_GAME_FIELD_SIZE) {
@@ -153,7 +153,7 @@ int main(int argc, char* argv[]) {
     SDL_Event event;
     bool quit = false;    
 
-    srand(time(NULL));
+    srand(time(NULL)); // NOLINT(*-msc51-cpp)
 
     init_game(&game, game_field_size);
     draw_scene(renderer, &game);
@@ -203,6 +203,8 @@ int main(int argc, char* argv[]) {
                     case SDLK_MINUS:
                         resize_game_field(false);
                         break;
+
+                    default: ;
                 }
             }
         }
